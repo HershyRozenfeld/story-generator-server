@@ -17,7 +17,7 @@ const anthropic = new Anthropic({
 
 // פונקציה לשליחת בקשה ל-Grok AI
 async function generateStory(words, difficulty) {
-  const prompt = `Create a ${difficulty} difficulty story in Hebrew, using these 5 words in English in a meaningful and natural way within the Hebrew text: ${words.join(", ")},=It must be combined with English letters!. The story must be no longer than 40 words. (for example:"יוסי עמד ליד החלון, עשה quick check בטלפון ו-scroll מהיר בפייסבוק. פתאום הוא שמע noise מוזר מתחת למדרגות.")`;
+  const prompt = `Create a ${difficulty} difficulty story in Hebrew, using these 5 words in English in a meaningful and natural way within the Hebrew text: ${words.join(", ")},=It must be combined with English letters!!!(for example:"יוסי עמד ליד ה-window, עשה quick check בטלפון ו-scroll מהיר בפייסבוק. פתאום הוא שמע noise מוזר Under למדרגות."). The story must be no longer than 40 words. `;
 
 
   
