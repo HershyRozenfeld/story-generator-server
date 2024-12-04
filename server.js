@@ -21,10 +21,10 @@ async function generateStory(words, difficulty) {
   //const prompt = `Create a ${difficulty} difficulty story in Hebrew, using these 5 words in English in a meaningful and natural way within the Hebrew text: ${words.join(", ")},=It must be combined with English letters!!!(for example:"יוסי עמד ליד ה-window, עשה quick check בטלפון ו-scroll מהיר בפייסבוק. פתאום הוא שמע noise מוזר Under למדרגות."). The story must be no longer than 40 words. `;
     
 
-
+  try {
     const response = await anthropic.messages.create({
       model: "grok-beta",
-      max_tokens: 512, // הגבלת אורך התגובה
+      max_tokens: 100, // הגבלת אורך התגובה
       system: "You are Grok, a chatbot inspired by the Hitchhiker's Guide to the Galaxy.",
       messages: [
         {
