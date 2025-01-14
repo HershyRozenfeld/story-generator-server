@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const Anthropic = require("@anthropic-ai/sdk");
+import OpenAI from "openai"; // ייבוא ספריית OpenAI
 require("dotenv").config();
 
 const app = express();
@@ -9,23 +9,27 @@ const PORT = 3000;
 // הגדרות לניתוח בקשות JSON
 app.use(bodyParser.json());
 
-// אתחול ה-Grok SDK
-const anthropic = new Anthropic({
-  apiKey: process.env.API_KEY,
-  baseURL: "https://api.x.ai", // כתובת ה-API הנכונה של Grok
+// אתחול ה-OpenAI SDK
+const openai = new OpenAI({
+  apiKey: process.env.API_KEY, // המפתח שלך מ-API_KEY
 });
 
-// פונקציה לשליחת בקשה ל-Grok AI
+// פונקציה לשליחת בקשה ל-GPT API (OpenAI)
 async function generateStory(words, difficulty) {
-  const prompt = `Create a short story (up to 40 words) in English, with a ${difficulty} language level. Include the following 5 words: ${words.join(", ")}. Integrate them seamlessly and naturally into the text with logical context.`;
-  //const prompt = `Create a ${difficulty} difficulty story in Hebrew, using these 5 words in English in a meaningful and natural way within the Hebrew text: ${words.join(", ")},=It must be combined with English letters!!!(for example:"יוסי עמד ליד ה-window, עשה quick check בטלפון ו-scroll מהיר בפייסבוק. פתאום הוא שמע noise מוזר Under למדרגות."). The story must be no longer than 40 words. `;
-    
+  const prompt = `
+Write a short story in Hebrew, without any word limit, that incorporates **exactly** the following words in English, written **exactly as they are** in English letters: ${words.join(", ")}.  
+Please ensure the following:  
+1. All words must appear at least once in the story, written **exactly as provided** in English letters, without translation or any modification.  
+2. The story should be written entirely in Hebrew, and the English words should be seamlessly and naturally integrated into the Hebrew text.  
+3. The meaning of the English words should be understandable from the context of the story, without disrupting the flow of the Hebrew text.  
+4. The story should be coherent, engaging, and grammatically correct in Hebrew, while ensuring the English words blend naturally into the narrative.  
+5. Do not add, omit, or modify any of the provided English words in any way.
+`;
 
   try {
-    const response = await anthropic.messages.create({
-      model: "grok-beta",
-      max_tokens: 100, // הגבלת אורך התגובה
-      system: "You are Grok, a chatbot inspired by the Hitchhiker's Guide to the Galaxy.",
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4-mini", // יש להקפיד לשים את המודל המתאים (כמו gpt-4)
+      store: true, // אם רוצים לשמור את הבקשות
       messages: [
         {
           role: "user",
@@ -33,24 +37,22 @@ async function generateStory(words, difficulty) {
         },
       ],
     });
-    
+
     // הדפס את התגובה המלאה למעקב
-    console.log("API response:", response);
+    console.log("API response:", completion);
 
     // גישה לתוכן
-    if (response && response.content && response.content[0] && response.content[0].text) {
-      return response.content[0].text;
+    if (completion && completion.choices && completion.choices[0] && completion.choices[0].message.content) {
+      return completion.choices[0].message.content;
     } else {
-      console.error("Response is missing expected fields:", response);
+      console.error("Response is missing expected fields:", completion);
       throw new Error("Failed to retrieve content from response.");
     }
   } catch (error) {
-    console.error("Error communicating with Grok:", error.message);
+    console.error("Error communicating with OpenAI:", error.message);
     throw new Error("Failed to generate story.");
   }
 }
-
-
 
 // מסלול POST לקבלת מילים ועוצמת קושי
 app.post("/generate-story", async (req, res) => {
@@ -77,4 +79,3 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 console.log("API_KEY:", process.env.API_KEY);
-console.log("BASE_URL:", process.env.BASE_URL);
