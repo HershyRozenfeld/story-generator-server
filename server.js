@@ -31,7 +31,7 @@ Please ensure the following:
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4-mini", // יש להקפיד לשים את המודל המתאים (כמו gpt-4)
+      model: "gpt-4o-mini", // יש להקפיד לשים את המודל המתאים (כמו gpt-4)
       store: true, // אם רוצים לשמור את הבקשות
       messages: [
         {
