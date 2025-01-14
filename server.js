@@ -1,7 +1,10 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+import express from "express";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
 import OpenAI from "openai"; // ייבוא ספריית OpenAI
-require("dotenv").config();
+
+// הגדרת קובץ הסביבה
+dotenv.config();
 
 const app = express();
 const PORT = 3000;
