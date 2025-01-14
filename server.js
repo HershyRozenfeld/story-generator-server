@@ -18,7 +18,7 @@ const openai = new OpenAI({
 });
 
 // פונקציה לשליחת בקשה ל-GPT API (OpenAI)
-async function generateStory(words, difficulty) {
+async function generateStory(words) {
   const prompt = `
 Write a short story in Hebrew, without any word limit, that incorporates **exactly** the following words in English, written **exactly as they are** in English letters: ${words.join(", ")}.  
 Please ensure the following:  
@@ -59,18 +59,15 @@ Please ensure the following:
 
 // מסלול POST לקבלת מילים ועוצמת קושי
 app.post("/generate-story", async (req, res) => {
-  const { words, difficulty } = req.body;
+  const { words} = req.body;
 
   // בדיקות קלט בסיסיות
-  if (!Array.isArray(words) || words.length !== 5) {
+  if (!Array.isArray(words)) {
     return res.status(400).json({ error: "Please provide exactly 5 words in an array." });
-  }
-  if (!["easy", "medium", "hard"].includes(difficulty)) {
-    return res.status(400).json({ error: "Difficulty must be one of: easy, medium, hard." });
   }
 
   try {
-    const story = await generateStory(words, difficulty);
+    const story = await generateStory(words);
     res.status(200).json({ story });
   } catch (error) {
     res.status(500).json({ error: error.message });
