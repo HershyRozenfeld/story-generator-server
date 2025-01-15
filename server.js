@@ -23,6 +23,9 @@ async function generateStory(words) {
 Write a story in Hebrew (150-200 words) that incorporates the following English words: ${words.join(", ")}.
 The story must be entirely in Hebrew, while the English words appear exactly as provided (written in Latin letters) and blend naturally into the story's context,
 Try to include as many English words as possible.
+Please ensure the following:  
+1. All words must appear at least once in the story, written **exactly as provided** in English letters, without translation or any modification.  
+2. The story should be written entirely in Hebrew, and the English words should be seamlessly and naturally integrated into the Hebrew text. 
 `;
 
   try {
