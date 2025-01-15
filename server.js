@@ -20,13 +20,7 @@ const openai = new OpenAI({
 // פונקציה לשליחת בקשה ל-GPT API (OpenAI)
 async function generateStory(words) {
   const prompt = `
-Write a short story in Hebrew, without any word limit, that incorporates **exactly** the following words in English, written **exactly as they are** in English letters: ${words.join(", ")}.  
-Please ensure the following:  
-1. All words must appear at least once in the story, written **exactly as provided** in English letters, without translation or any modification.  
-2. The story should be written entirely in Hebrew, and the English words should be seamlessly and naturally integrated into the Hebrew text.  
-3. The meaning of the English words should be understandable from the context of the story, without disrupting the flow of the Hebrew text.  
-4. The story should be coherent, engaging, and grammatically correct in Hebrew, while ensuring the English words blend naturally into the narrative.  
-5. Do not add, omit, or modify any of the provided English words in any way.
+Write a story in Hebrew (150-200 words) that incorporates the following English words: ${words.join(", ")}. The story must be entirely in Hebrew, while the English words appear exactly as provided (written in Latin letters) and blend naturally into the story's context, Try to include as many English words as possible.`
 `;
 
   try {
