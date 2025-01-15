@@ -20,7 +20,9 @@ const openai = new OpenAI({
 // פונקציה לשליחת בקשה ל-GPT API (OpenAI)
 async function generateStory(words) {
   const prompt = `
-Write a story in Hebrew (150-200 words) that incorporates the following English words: ${words.join(", ")}. The story must be entirely in Hebrew, while the English words appear exactly as provided (written in Latin letters) and blend naturally into the story's context, Try to include as many English words as possible.`
+Write a story in Hebrew (150-200 words) that incorporates the following English words: ${words.join(", ")}.
+The story must be entirely in Hebrew, while the English words appear exactly as provided (written in Latin letters) and blend naturally into the story's context,
+Try to include as many English words as possible.
 `;
 
   try {
