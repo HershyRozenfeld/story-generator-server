@@ -19,7 +19,7 @@ const openai = new OpenAI({
 
 // פונקציה לשליחת בקשה ל-GPT API (OpenAI)
 async function generateStory(words) {
-  const prompt = BASE_PROMPT.replace("{WORDS}", words.join(", "));
+  const prompt = words.join(", ");
   
   try {
     const completion = await openai.chat.completions.create({
